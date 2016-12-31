@@ -22,6 +22,9 @@ Plugin 'majutsushi/tagbar'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'jdkanani/vim-material-theme'
+Plugin 'ternjs/tern_for_vim'
+Plugin 'ramitos/jsctags'
+Plugin 'othree/es.next.syntax.vim'
 
 call vundle#end()            " required
 
@@ -75,6 +78,10 @@ let g:ycm_filetype_blacklist = {
             \ 'text': 1,
             \ 'infolog': 1,
             \'mail': 1
+            \}
+
+let g:tagbar_type_javascript = {
+            \'ctagsbin' : '~/.vim/bundle/jsctags/bin/jsctags'
             \}
 
 " 为不同文件类型设置缩进
