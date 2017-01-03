@@ -1,0 +1,202 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'othree/yajs.vim'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Bundle 'taglist.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'majutsushi/tagbar'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'suan/vim-instant-markdown'
+Plugin 'jdkanani/vim-material-theme'
+Plugin 'ternjs/tern_for_vim'
+Plugin 'ramitos/jsctags'
+Plugin 'othree/es.next.syntax.vim'
+
+Plugin 'vim-ruby/vim-ruby'
+
+Plugin 'Chiel92/vim-autoformat'
+
+call vundle#end()            " required
+
+filetype on
+filetype plugin indent on    " required
+filetype plugin on
+filetype indent on
+
+syntax enable
+set background=dark
+colorscheme material-theme
+set backspace=2
+set pastetoggle=<F9>
+set nu
+set expandtab
+set nowrap
+
+" settings for tagslist
+let Tlist_Use_Right_Window = 1 " 让taglist窗口出现在Vim的右边
+let Tlist_File_Fold_Auto_Close = 1 " 当同时显示多个文件中的tag时，设置为1，可使taglist只显示当前文件tag，其它文件的tag都被折叠起来。
+let Tlist_Show_One_File = 1 " 只显示一个文件中的tag，默认为显示多个
+let Tlist_Sort_Type ='name' " Tag的排序规则，以名字排序。默认是以在文件中出现的顺序排序
+let Tlist_GainFocus_On_ToggleOpen = 1 "Taglist窗口打开时，立刻切换为有焦点状态
+let Tlist_Exit_OnlyWindow = 1 "如果taglist窗口是最后一个窗口，则退出vim 
+let Tlist_WinWidth = 32 "设置窗体宽度为32，可以根据自己喜好设置
+let Tlist_Ctags_Cmd ='/usr/local/Cellar/ctags/5.8_1/bin/ctags' 
+
+" 自动完成插件配置
+let g:ycm_complete_in_comments = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_filetype_specific_completion_to_disable = {
+            \ 'ruby' : 1,
+            \ 'javascript' : 1,
+            \'jsx' : 1,
+            \}
+
+let g:ycm_semantic_triggers =  {
+            \'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+            \   'ruby' : ['.', '::'],
+            \   'gitcommit' : ['#', ':'],
+            \ }
+" Overwritten so we can allow markdown completion.
+let g:ycm_filetype_blacklist = {
+            \ 'notes': 1,
+            \ 'unite': 1,
+            \ 'tagbar': 1,
+            \ 'pandoc': 1,
+            \ 'qf': 1,
+            \ 'vimwiki': 1,
+            \ 'text': 1,
+            \ 'infolog': 1,
+            \'mail': 1
+            \}
+
+let g:tagbar_type_javascript = {
+            \'ctagsbin' : '~/.vim/bundle/jsctags/bin/jsctags'
+            \}
+
+let g:formatterpath = ['/usr/local/bin/ruby-beautify']
+
+" 为不同文件类型设置缩进
+autocmd FileType php,python,c,java,perl,shell,bash,vim,cpp set ai
+autocmd FileType php,python,c,java,perl,shell,bash,vim,cpp set sw=4
+autocmd FileType php,python,c,java,perl,shell,bash,vim,cpp set ts=4
+autocmd FileType php,python,c,java,perl,shell,bash,vim,cpp set sts=4
+autocmd FileType javascript,html,css,xml,ruby set ai
+autocmd FileType javascript,html,css,xml,ruby set sw=2
+autocmd FileType javascript,html,css,xml,ruby set ts=2
+autocmd FileType javascript,html,css,xml,ruby set sts=2
+
+" 格式化js css html jsx 文件
+let g:config_Beautifier = {
+            \'jsx': {
+            \   'e4x': 'true', 
+            \   'indent_style': 'space', 
+            \   'indent_size': '2'
+            \}, 
+            \'js': {
+            \   'e4x': 'true',
+            \   'indent_style': 'space', 
+            \   'indent_size': '2'
+            \}, 
+            \'json': {
+            \   'indent_style': 'space', 
+            \   'indent_size': '2'
+            \}, 
+            \'html': {
+            \   'brace_style': 'expand', 
+            \   'indent_style': 'space', 
+            \   'indent_size': '2', 
+            \   'max_char': '120'
+            \}, 
+            \'css': {
+            \   'indent_style': 'space', 
+            \   'indent_size': '2'
+            \}
+            \}
+
+" map <c-f> :call JsBeautify()<cr>
+" or
+autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+" for json
+autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
+" for jsx
+autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+" for html
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+
+
+" vim状态栏
+set laststatus=2
+
+" ------------------ NERDTree 
+"
+" toggle nerdtree display
+map <F3> :NERDTreeToggle<CR>
+" open nerdtree with the current file selected
+nmap ,t :NERDTreeFind<CR>
+" don't show these file types
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$', 'node_modules']
+
+" ------------------ CtrlP
+" file finder mapping
+let g:ctrlp_map = ',e'
+" hidden some types files
+let g:ctrlp_show_hidden = 1
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif
+"Linux
+" tags (symbols) in current file finder mapping
+nmap ,g :CtrlPBufTag<CR>
+" tags (symbols) in all files finder mapping
+nmap ,G :CtrlPBufTagAll<CR>
+" general code finder in all files mapping
+nmap ,f :CtrlPLine<CR>
+" recent files finder mapping
+nmap ,m :CtrlPMRUFiles<CR>
+" commands finder mapping
+nmap ,c :CtrlPCmdPalette<CR>
+" to be able to call CtrlP with default search text
+function! CtrlPWithSearchText(search_text, ctrlp_command_end)
+    execute ':CtrlP' . a:ctrlp_command_end
+    call feedkeys(a:search_text)
+endfunction
+
+" Emmet
+let g:user_emmet_expandabbr_key='<Tab>'
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
+
+" same as previous mappings, but calling with current word as default text
+nmap ,wg :call CtrlPWithSearchText(expand('<cword>'), 'BufTag')<CR>
+nmap ,wG :call CtrlPWithSearchText(expand('<cword>'), 'BufTagAll')<CR>
+nmap ,wf :call CtrlPWithSearchText(expand('<cword>'), 'Line')<CR>
+nmap ,we :call CtrlPWithSearchText(expand('<cword>'), '')<CR>
+nmap ,pe :call CtrlPWithSearchText(expand('<cfile>'), '')<CR>
+nmap ,wm :call CtrlPWithSearchText(expand('<cword>'), 'MRUFiles')<CR>
+nmap ,wc :call CtrlPWithSearchText(expand('<cword>'), 'CmdPalette')<CR>
+
+" don't change working directory
+let g:ctrlp_working_path_mode = 0
+" ignore these files and folders on file finder
+let g:ctrlp_custom_ignore = {
+            \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules)$',
+            \ 'file': '\.pyc$\|\.pyo$',
+            \ }
+
