@@ -26,6 +26,7 @@ Plugin 'jdkanani/vim-material-theme'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'ramitos/jsctags'
 Plugin 'othree/es.next.syntax.vim'
+Plugin 'beanworks/vim-phpfmt'
 
 Plugin 'vim-ruby/vim-ruby'
 
